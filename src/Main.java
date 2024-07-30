@@ -8,21 +8,21 @@ public class Main {
         TaskManager manager = new TaskManager();
 
         Task firstTask = new Task("Выкинуть мусор", "Через 20 минут", Status.NEW);
-        manager.saveTask(firstTask);
+        manager.addTask(firstTask);
 
         Task secondTask = new Task("Убраться дома", "Помыть полы и посуду", Status.NEW);
-        manager.saveTask(secondTask);
+        manager.addTask(secondTask);
 
         Epic firstEpic = new Epic("Убраться дома", "Потому что придут гости", Status.NEW);
-        manager.saveEpic(firstEpic);
+        manager.addEpic(firstEpic);
 
         Subtask firstSubtask = new Subtask(
                 "Убрать полы", "Пропылесосить и помыть", Status.DONE, 1);
-        manager.saveSubtask(firstSubtask);
+        manager.addSubtask(firstSubtask);
 
         Subtask secondSubtask = new Subtask(
                 "Помыть посуду", "Тарелки и стаканы", Status.DONE, 2);
-        manager.saveSubtask(secondSubtask);
+        manager.addSubtask(secondSubtask);
 
         System.out.println("Получение списка всех задач");
         System.out.println(manager.getTasksList());
@@ -45,14 +45,14 @@ public class Main {
 
         System.out.println("Создание");
         Task newFirstTask = manager.createTask(firstTask);
-        manager.saveTask(newFirstTask);
+        manager.addTask(newFirstTask);
         Task newSecondTask = manager.createTask(secondTask);
-        manager.saveTask(newSecondTask);
+        manager.addTask(newSecondTask);
 
         Epic newEpic = manager.createEpic(firstEpic);
-        manager.saveEpic(firstEpic);
+        manager.addEpic(firstEpic);
         Subtask newSubtask = manager.createSubtask(firstSubtask);
-        manager.saveSubtask(firstSubtask);
+        manager.addSubtask(firstSubtask);
 
         System.out.println(newFirstTask);
         System.out.println(newSecondTask);

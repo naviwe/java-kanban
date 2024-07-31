@@ -13,7 +13,7 @@ public class Main {
         Task secondTask = new Task("Убраться дома", "Помыть полы и посуду", Status.NEW);
         manager.addTask(secondTask);
 
-        Epic firstEpic = new Epic("Убраться дома", "Потому что придут гости", Status.NEW);
+        Epic firstEpic = new Epic("Убраться дома", "Потому что придут гости");
         manager.addEpic(firstEpic);
 
         Subtask firstSubtask = new Subtask(
@@ -27,7 +27,7 @@ public class Main {
         System.out.println("Получение списка всех задач");
         System.out.println(manager.getTasksList());
         System.out.println(manager.getEpicsList());
-        System.out.println(manager.getSubtaskList());
+        System.out.println(manager.getSubtasksList());
 
         System.out.println("Получение по идентификатору");
         System.out.println(manager.getTaskByIdNumber(1));
@@ -36,12 +36,12 @@ public class Main {
 
         manager.deleteTasks();
         manager.deleteEpics();
-        manager.deleteSubtask();
+        manager.deleteSubtasks();
 
         System.out.println("Удаление всех задач");
         System.out.println(manager.getTasksList());
         System.out.println(manager.getEpicsList());
-        System.out.println(manager.getSubtaskList());
+        System.out.println(manager.getSubtasksList());
 
         System.out.println("Создание");
         Task newFirstTask = manager.createTask(firstTask);
@@ -65,7 +65,7 @@ public class Main {
         manager.updateSubtask(newSubtask);
         System.out.println(manager.getTasksList());
         System.out.println(manager.getEpicsList());
-        System.out.println(manager.getSubtaskList());
+        System.out.println(manager.getSubtasksList());
 
         System.out.println("Получение списка всех подзадач определённого эпика");
         System.out.println(manager.subtaskList(1));
@@ -79,7 +79,7 @@ public class Main {
 
         System.out.println(manager.getTasksList());
         System.out.println(manager.getEpicsList());
-        System.out.println(manager.getSubtaskList());
+        System.out.println(manager.getSubtasksList());
 
     }
 }

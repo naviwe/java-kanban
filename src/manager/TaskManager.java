@@ -4,8 +4,6 @@ import task.*;
 
 import java.util.HashMap;
 import java.util.ArrayList;
-import java.util.List;
-
 
 public class TaskManager {
 
@@ -20,24 +18,22 @@ public class TaskManager {
 
     public void addTask(Task task) {
         task.setId(newId());
-        tasks.put(idNumber, task);
+        tasks.put(task.getId(), task);
     }
 
     public void addEpic(Epic epic) {
         epic.setId(newId());
-        epics.put(idNumber, epic);
+        epics.put(epic.getId(), epic);
     }
 
     public void addSubtask(Subtask subtask) {
-        int epicIdOfSubTask = subtask.getEpicId();
-        Epic epic = epics.get(epicIdOfSubTask);
-        if (epic != null) {
-            int subTaskId = this.newId();
-            subtask.setId(subTaskId);
-            subtasks.put(subTaskId, subtask);
+        if (epics.containsKey(subtask.getEpicId())) {
+            subtask.setId(newId());
+            Epic epic = epics.get(subtask.getEpicId());
+            subtasks.put(subtask.getId(), subtask);
             epic.addSubtaskId(subtask);
+            changeEpicStatus(epic);
         }
-
     }
 
     public ArrayList<Task> getTasksList() {
@@ -48,7 +44,7 @@ public class TaskManager {
         return new ArrayList<>(epics.values());
     }
 
-    public ArrayList<Subtask> getSubtasksList() {
+    public ArrayList<Subtask> getSubtaskList() {
         return new ArrayList<>(subtasks.values());
     }
 
@@ -61,13 +57,13 @@ public class TaskManager {
         subtasks.clear();
     }
 
-    public void deleteSubtasks() {
+    public void deleteSubtask() {
         for (Integer sub : subtasks.keySet()) {
             Subtask subtask = subtasks.get(sub);
             if (subtask != null) {
                 Epic epic = epics.get(subtask.getEpicId());
                 if (epic != null) {
-                    epic.removeSubtasksId(subtask);
+                    epic.removeSubtasksId();
                     changeEpicStatus(epic);
                 }
             }
@@ -148,7 +144,7 @@ public class TaskManager {
         ArrayList<Subtask> listSubtasks = new ArrayList<>();
         Epic epic = epics.get(idNumber);
         if (epic != null) {
-            for (int sub : epic.getSubtasksId()) {
+            for (Integer sub : epic.getSubtasksId()) {
                 Subtask subtask = subtasks.get(sub);
                 listSubtasks.add(subtask);
             }

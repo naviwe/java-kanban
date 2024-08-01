@@ -103,15 +103,20 @@ public class TaskManager {
     }
 
     public void updateEpic(Epic epic) {
-        if (epics.containsKey(epic.getId())) {
-            epics.put(epic.getId(), epic);
+        int idUpdatedEpic = epic.getId();
+        if (epics.containsKey(idUpdatedEpic)) {
+            epics.get(idUpdatedEpic).setName(epic.getName());
+            epics.get(idUpdatedEpic).setDescription(epic.getDescription());
         }
     }
 
     public void updateSubtask(Subtask subtask) {
-        if ((subtasks.containsKey(subtask.getId())) && subtasks.containsKey(subtask.getEpicId())) {
-            subtasks.put(subtask.getId(), subtask);
-            changeEpicStatus(epics.get(subtask.getEpicId()));
+        if (subtasks.containsKey(subtask.getId())) {
+            Epic epic = epics.get(subtask.getEpicId());
+            if (epics.containsKey(epic.getId())) {
+                subtasks.put(subtask.getId(), subtask);
+                changeEpicStatus(epic);
+            }
         }
     }
 

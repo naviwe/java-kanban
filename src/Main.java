@@ -75,7 +75,7 @@ public class Main {
         manager.deleteTaskById(6);
         manager.deleteTaskById(7);
         manager.deleteEpicById(8);
-        manager.deleteSubtaskById(9);
+
 
         System.out.println(manager.getTasksList());
         System.out.println(manager.getEpicsList());

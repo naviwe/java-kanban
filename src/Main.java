@@ -68,13 +68,13 @@ public class Main {
         System.out.println(manager.getSubtaskList());
 
         System.out.println("Получение списка всех подзадач определённого эпика");
-        System.out.println(manager.subtaskList(6));
+        System.out.println(manager.subtaskList(2));
 
         System.out.println("Удаление по идентификатору");
 
-        manager.deleteTaskById(6);
-        manager.deleteTaskById(7);
-        manager.deleteEpicById(8);
+        manager.deleteTaskById(5);
+        manager.deleteTaskById(4);
+        manager.deleteEpicById(6);
 
 
         System.out.println(manager.getTasksList());

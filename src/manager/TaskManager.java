@@ -112,10 +112,13 @@ public class TaskManager {
 
     public void updateSubtask(Subtask subtask) {
         if (subtasks.containsKey(subtask.getId())) {
-            Epic epic = epics.get(subtask.getEpicId());
-            if (epics.containsKey(epic.getId())) {
+            Subtask currentSubtaskId = subtasks.get(subtask.getId());
+            if (currentSubtaskId.getEpicId() == (subtask.getEpicId())) {
                 subtasks.put(subtask.getId(), subtask);
-                changeEpicStatus(epic);
+                Epic epic = epics.get(subtask.getEpicId());
+                if (epic != null){
+                    changeEpicStatus(epic);
+                }
             }
         }
     }

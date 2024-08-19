@@ -53,5 +53,5 @@ public interface TaskManager {
 
     void changeEpicStatus(Epic epic);
 
-    ArrayList<Task> getHistory();
+    HistoryManager getHistory();
 }

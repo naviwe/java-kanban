@@ -5,7 +5,7 @@ import task.*;
 public class Main {
 
     public static void main(String[] args) {
-        TaskManager manager = new TaskManager();
+        TaskManager manager = new InMemoryTaskManager();
 
         Task firstTask = new Task("Выкинуть мусор", "Через 20 минут", Status.NEW);
         manager.addTask(firstTask);
@@ -23,7 +23,6 @@ public class Main {
         Subtask secondSubtask = new Subtask(
                 "Помыть посуду", "Тарелки и стаканы", Status.DONE, 2);
         manager.addSubtask(secondSubtask);
-
         System.out.println("Получение списка всех задач");
         System.out.println(manager.getTasksList());
         System.out.println(manager.getEpicsList());

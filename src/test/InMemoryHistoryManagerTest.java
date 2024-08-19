@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 
 
-class inMemoryHistoryManagerTest {
+class InMemoryHistoryManagerTest {
 
     private InMemoryTaskManager taskManager;
     private HistoryManager historyManager;

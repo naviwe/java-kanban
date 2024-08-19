@@ -2,13 +2,20 @@ package manager;
 
 import task.Task;
 
+
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class InMemoryHistoryManager implements HistoryManager {
 
-    private final ArrayList<Task> tasksHistory = new ArrayList<>();
+
+    private final List<Task> tasksHistory;
     private static final int MAX_LIST_SIZE = 10; // Количество записей в списке истории
+
+    public InMemoryHistoryManager() {
+        tasksHistory = new ArrayList<>();
+    }
 
     @Override
     public void add(Task task) {
@@ -19,7 +26,7 @@ public class InMemoryHistoryManager implements HistoryManager {
     }
 
     @Override
-    public ArrayList<Task> getHistory() {
-        return new ArrayList<>(tasksHistory);
+    public List<Task> getHistory() {
+        return tasksHistory;
     }
 }

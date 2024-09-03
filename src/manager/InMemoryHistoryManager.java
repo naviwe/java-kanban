@@ -39,7 +39,7 @@ public class InMemoryHistoryManager implements HistoryManager {
     }
 
 
-    class CustomLinkedList<Task> {
+    static class CustomLinkedList<Task> {
         private Node<Task> head;
 
         private Node<Task> tail;
@@ -47,7 +47,7 @@ public class InMemoryHistoryManager implements HistoryManager {
         private int size = 0;
 
         void linkLast(Task task) {
-            // Реализуйте метод
+
             final Node<Task> oldTail = tail;
             final Node<Task> newNode = new Node<>(task, null, oldTail);
             tail = newNode;

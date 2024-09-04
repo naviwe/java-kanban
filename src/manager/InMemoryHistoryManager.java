@@ -7,34 +7,33 @@ import java.util.*;
 
 
 public class InMemoryHistoryManager implements HistoryManager {
-    List<Task> listHistory = new ArrayList<>();
+
     Map<Integer, Node> mapHistory = new HashMap<>();
     CustomLinkedList<Task> linkedListHistory = new CustomLinkedList<>();
 
 
     @Override
     public void add(Task task) {
-        if (mapHistory.containsKey(task.getId())) {
-            linkedListHistory.removeNode(mapHistory.get(task.getId()));
-            mapHistory.remove(task.getId());
+        if (task != null) {
+            if (mapHistory.containsKey(task.getId())) {
+                linkedListHistory.removeNode(mapHistory.get(task.getId()));
+                mapHistory.remove(task.getId());
+            }
+            linkedListHistory.linkLast(task);
+            mapHistory.put(task.getId(), linkedListHistory.tail);
         }
-        linkedListHistory.linkLast(task);
-        mapHistory.put(task.getId(), linkedListHistory.tail);
     }
 
     @Override
     public List<Task> getHistory() {
-        if (linkedListHistory.getSize() != 0) {
-            listHistory = linkedListHistory.getTasks();
-            return listHistory;
-        }
-        return List.of();
+        return linkedListHistory.getTasks();
     }
 
     @Override
     public void remove(int id) {
         if (mapHistory.containsKey(id)) {
             linkedListHistory.removeNode(mapHistory.get(id));
+            mapHistory.remove(id);
         }
     }
 
@@ -67,28 +66,20 @@ public class InMemoryHistoryManager implements HistoryManager {
             return newListHistory;
         }
 
-        void removeNode(Node<T> x) {
-            final Task element = x.data;
-            final Node<T> next = x.next;
-            final Node<T> prev = x.prev;
-
-            if (prev == null) {
-                head = next;
-            } else {
-                prev.next = next;
-                x.prev = null;
+        void removeNode(Node<T> node) {
+            if (node == null) {
+                return;
             }
-
-            if (next == null) {
-                tail = prev;
+            if (node.prev != null) {
+                node.prev.next = node.next;
             } else {
-                next.prev = prev;
-                x.next = null;
+                head = node.next;
             }
-
-            x.data = null;
-            size--;
-
+            if (node.next != null) {
+                node.next.prev = node.prev;
+            } else {
+                tail = node.prev;
+            }
         }
 
         int getSize() {

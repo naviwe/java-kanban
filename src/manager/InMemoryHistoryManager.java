@@ -26,7 +26,10 @@ public class InMemoryHistoryManager implements HistoryManager {
 
     @Override
     public List<Task> getHistory() {
-        return linkedListHistory.getTasks();
+        if (linkedListHistory.getSize() != 0) {
+            return linkedListHistory.getTasks();
+        }
+        return List.of();
     }
 
     @Override

@@ -66,17 +66,29 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void deleteTasks() {
+        for (Integer task : tasks.keySet()) {
+            historyManager.remove(task);
+        }
         tasks.clear();
     }
 
     @Override
     public void deleteEpics() {
+        for (Integer epic : epics.keySet()) {
+            historyManager.remove(epic);
+        }
+        for (Integer sub : subtasks.keySet()) {
+            historyManager.remove(sub);
+        }
         epics.clear();
         subtasks.clear();
     }
 
     @Override
     public void deleteSubtask() {
+        for (Integer sub : subtasks.keySet()) {
+            historyManager.remove(sub);
+        }
         for (Integer sub : subtasks.keySet()) {
             Subtask subtask = subtasks.get(sub);
             if (subtask != null) {
@@ -143,6 +155,7 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public void deleteTaskById(int idNumber) {
         tasks.remove(idNumber);
+        historyManager.remove(idNumber);
     }
 
     @Override
@@ -151,9 +164,11 @@ public class InMemoryTaskManager implements TaskManager {
         if (epic != null) {
             for (int sub : epic.getSubtasksId()) {
                 subtasks.remove(sub);
+                historyManager.remove(sub);
             }
         }
         epics.remove(idNumber);
+        historyManager.remove(idNumber);
     }
 
     @Override
@@ -166,6 +181,7 @@ public class InMemoryTaskManager implements TaskManager {
             changeEpicStatus(epic);
         }
         subtasks.remove(idNumber);
+        historyManager.remove(idNumber);
     }
 
     @Override
@@ -203,7 +219,7 @@ public class InMemoryTaskManager implements TaskManager {
             }
         }
 
-        if ((subTasksUpd.size() == 0) || (counterNew == subTasksUpd.size())) {
+        if ((subTasksUpd.isEmpty()) || (counterNew == subTasksUpd.size())) {
             epic.setStatus(Status.NEW);
         } else if (counterDone == subTasksUpd.size()) {
             epic.setStatus(Status.DONE);

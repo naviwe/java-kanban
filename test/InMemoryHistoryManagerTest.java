@@ -10,10 +10,7 @@ import task.Task;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-
+import static org.junit.jupiter.api.Assertions.*;
 
 
 class InMemoryHistoryManagerTest {
@@ -25,6 +22,11 @@ class InMemoryHistoryManagerTest {
     void setUp() {
         historyManager = Managers.getDefaultHistory();
         taskManager = new InMemoryTaskManager();
+    }
+
+    @Test
+    void testShouldReturnEmptyHistory() {
+        assertTrue(historyManager.getHistory().isEmpty());
     }
 
     @Test
@@ -72,7 +74,6 @@ class InMemoryHistoryManagerTest {
     }
 
 
-
     @Test
     void testSubtaskCannotBeItsOwnEpic() {
         Epic epic = new Epic("Epic 1", "Epic description");
@@ -108,11 +109,11 @@ class InMemoryHistoryManagerTest {
 
     @Test
     void testTasksWithGeneratedAndSpecifiedIdDoNotConflict() {
-        Task task1 = new Task("Task 1", "Description 1",Status.NEW);
+        Task task1 = new Task("Task 1", "Description 1", Status.NEW);
         task1.setId(1);
         taskManager.addTask(task1);
 
-        Task task2 = new Task("Task 2", "Description 2",Status.NEW);
+        Task task2 = new Task("Task 2", "Description 2", Status.NEW);
         taskManager.addTask(task2);
 
         assertNotEquals(task1.getId(), task2.getId());
@@ -120,7 +121,7 @@ class InMemoryHistoryManagerTest {
 
     @Test
     void testTaskImmutabilityWhenAddedToManager() {
-        Task task = new Task("Task 1", "Description 1",Status.NEW);
+        Task task = new Task("Task 1", "Description 1", Status.NEW);
         taskManager.addTask(task);
 
         Task retrievedTask = taskManager.getTaskByIdNumber(task.getId());
@@ -130,7 +131,7 @@ class InMemoryHistoryManagerTest {
 
     @Test
     void testHistoryManagerStoresPreviousTaskVersions() {
-        Task task = new Task("Task 1", "Description 1",Status.NEW);
+        Task task = new Task("Task 1", "Description 1", Status.NEW);
         taskManager.addTask(task);
         historyManager.add(task);
 

@@ -6,11 +6,11 @@ import java.util.*;
 
 public class InMemoryTaskManager implements TaskManager {
 
-    private Map<Integer, Task> tasks;
-    private Map<Integer, Epic> epics;
-    private Map<Integer, Subtask> subtasks;
+    public Map<Integer, Task> tasks;
+    public Map<Integer, Epic> epics;
+    public Map<Integer, Subtask> subtasks;
     private int idNumber = 0;
-    private final HistoryManager historyManager;
+    protected final HistoryManager historyManager;
 
     public InMemoryTaskManager() {
         historyManager = new InMemoryHistoryManager();
@@ -182,19 +182,6 @@ public class InMemoryTaskManager implements TaskManager {
         }
         subtasks.remove(idNumber);
         historyManager.remove(idNumber);
-    }
-
-    @Override
-    public List<Subtask> subtaskList(int idNumber) {
-        List<Subtask> listSubtasks = new ArrayList<>();
-        Epic epic = epics.get(idNumber);
-        if (epic != null) {
-            for (Integer sub : epic.getSubtasksId()) {
-                Subtask subtask = subtasks.get(sub);
-                listSubtasks.add(subtask);
-            }
-        }
-        return listSubtasks;
     }
 
     @Override

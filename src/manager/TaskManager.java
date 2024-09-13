@@ -43,8 +43,6 @@ public interface TaskManager {
 
     void deleteSubtaskById(int idNumber);
 
-    List<Subtask> subtaskList(int idNumber);
-
     void changeEpicStatus(Epic epic);
 
     List<Task> getHistory();

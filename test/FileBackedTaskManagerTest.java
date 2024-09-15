@@ -6,6 +6,7 @@ import task.Status;
 import task.Subtask;
 import task.Task;
 
+import java.io.File;
 import java.nio.file.Paths;
 import java.util.List;
 
@@ -16,7 +17,8 @@ class FileBackedTaskManagerTest {
 
     @Test
     public void testFileSaveAndLoad() {
-        TaskManager taskManager = new FileBackedTasksManager();
+        File file = new File("history.csv");
+        TaskManager taskManager = new FileBackedTasksManager(file);
         Task task1 = new Task("Задача 1", "Действие таска 1", Status.NEW);
         Task task2 = new Task("Задача 2", "Действие таска 2", Status.NEW);
         Epic epic1 = new Epic("Эпик 1", "Действие эпика 1");
@@ -36,7 +38,7 @@ class FileBackedTaskManagerTest {
         List<Task> tasksBeforeLoad = taskManager.getTasksList();
         List<Epic> epicsBeforeLoad = taskManager.getEpicsList();
         List<Subtask> subTasksBeforeLoad = taskManager.getSubtaskList();
-        taskManager = FileBackedTasksManager.loadFromFile(Paths.get("history.csv").toFile());
+        ((FileBackedTasksManager) taskManager).loadFromFile(file);
         List<Task> tasksAfterLoad = taskManager.getTasksList();
         List<Epic> epicsAfterLoad = taskManager.getEpicsList();
         List<Subtask> subTasksAfterLoad = taskManager.getSubtaskList();
@@ -53,12 +55,13 @@ class FileBackedTaskManagerTest {
 
     @Test
     public void testEmptyFileSaveAndLoad() {
-        FileBackedTasksManager emptyManager = new FileBackedTasksManager();
+        File file = new File("history.csv");
+        FileBackedTasksManager emptyManager = new FileBackedTasksManager(file);
         emptyManager.save();
         assertTrue(emptyManager.tasks.isEmpty());
         assertTrue(emptyManager.epics.isEmpty());
         assertTrue(emptyManager.subtasks.isEmpty());
-        emptyManager = FileBackedTasksManager.loadFromFile(Paths.get("history.csv").toFile());
+        emptyManager.loadFromFile(file);
         assertTrue(emptyManager.tasks.isEmpty());
         assertTrue(emptyManager.epics.isEmpty());
         assertTrue(emptyManager.subtasks.isEmpty());

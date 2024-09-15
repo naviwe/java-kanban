@@ -172,6 +172,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
         }
         taskManager.save();
     }
+
     private void restoreIdNumber() {
         Map<Integer, Task> allTasks = new HashMap<>();
         allTasks.putAll(this.tasks);
@@ -184,6 +185,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
         }
         this.idNumber = maxId;
     }
+
     private static void convertRestoredListOfHistoryInHistoryManager(List<Integer> restoredHistory,
                                                                      FileBackedTasksManager manager) {
         if (!restoredHistory.isEmpty()) {
@@ -230,34 +232,34 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
         if (!line.equals(" ") && !line.equals("")) {
             String[] parameters = line.split(",");
             TaskType type = TaskType.valueOf(parameters[1]);
-                switch (type) {
-                    case TASK:
-                        Task task = new Task();
-                        task.setId(Integer.parseInt(parameters[0]));
-                        task.setName(parameters[2]);
-                        task.setStatus(Status.valueOf(parameters[3]));
-                        task.setDescription(parameters[4]);
-                        return task;
-                    case EPIC:
-                        Epic epic = new Epic();
-                        epic.setId(Integer.parseInt(parameters[0]));
-                        epic.setName(parameters[2]);
-                        epic.setStatus(Status.valueOf(parameters[3]));
-                        epic.setDescription(parameters[4]);
-                        return epic;
-                    case SUBTASK:
-                        if (parameters.length > 4) {
-                            Subtask subtask = new Subtask();
-                            subtask.setId(Integer.parseInt(parameters[0]));
-                            subtask.setName(parameters[2]);
-                            subtask.setStatus(Status.valueOf(parameters[3]));
-                            subtask.setDescription(parameters[4]);
-                            subtask.setEpicId(Integer.parseInt(parameters[5]));
-                            return subtask;
-                        } else {
-                            break;
-                        }
-                }
+            switch (type) {
+                case TASK:
+                    Task task = new Task();
+                    task.setId(Integer.parseInt(parameters[0]));
+                    task.setName(parameters[2]);
+                    task.setStatus(Status.valueOf(parameters[3]));
+                    task.setDescription(parameters[4]);
+                    return task;
+                case EPIC:
+                    Epic epic = new Epic();
+                    epic.setId(Integer.parseInt(parameters[0]));
+                    epic.setName(parameters[2]);
+                    epic.setStatus(Status.valueOf(parameters[3]));
+                    epic.setDescription(parameters[4]);
+                    return epic;
+                case SUBTASK:
+                    if (parameters.length > 4) {
+                        Subtask subtask = new Subtask();
+                        subtask.setId(Integer.parseInt(parameters[0]));
+                        subtask.setName(parameters[2]);
+                        subtask.setStatus(Status.valueOf(parameters[3]));
+                        subtask.setDescription(parameters[4]);
+                        subtask.setEpicId(Integer.parseInt(parameters[5]));
+                        return subtask;
+                    } else {
+                        break;
+                    }
+            }
 
         }
         return null;

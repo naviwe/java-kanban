@@ -147,15 +147,15 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
                     if (task != null) {
                         switch (task.getType()) {
                             case TASK:
-                                taskManager.addTask(task);
+                                taskManager.addTaskInternal(task);
                                 break;
                             case EPIC:
-                                taskManager.addEpic((Epic) task);
+                                taskManager.addEpicInternal((Epic) task);
                                 break;
                             case SUBTASK:
                                 Subtask subtask = (Subtask) task;
                                 if (taskManager.epics.containsKey(subtask.getEpicId())) {
-                                    taskManager.addSubtask(subtask);
+                                    taskManager.addSubtaskInternal(subtask);
                                 }
                                 break;
                         }
@@ -170,7 +170,6 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
         } catch (IOException e) {
             throw new ManagerSaveException(e.getMessage());
         }
-        taskManager.save();
     }
 
     private void restoreIdNumber() {
@@ -189,27 +188,27 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
     private static void convertRestoredListOfHistoryInHistoryManager(List<Integer> restoredHistory,
                                                                      FileBackedTasksManager manager) {
         if (!restoredHistory.isEmpty()) {
-            HashSet<Integer> historySet = new HashSet<>(restoredHistory);
-
-            for (Task task : manager.getTasksList()) {
-                if (historySet.contains(task.getId())) {
+            for (Integer id : restoredHistory) {
+                Task task = manager.getTaskByIdNumber(id);
+                if (task != null) {
                     manager.historyManager.add(task);
+                    continue;
                 }
-            }
 
-            for (Epic epic : manager.getEpicsList()) {
-                if (historySet.contains(epic.getId())) {
+                Epic epic = manager.getEpicByIdNumber(id);
+                if (epic != null) {
                     manager.historyManager.add(epic);
+                    continue;
                 }
-            }
 
-            for (Subtask subtask : manager.getSubtaskList()) {
-                if (historySet.contains(subtask.getId())) {
+                Subtask subtask = manager.getSubtaskByIdNumber(id);
+                if (subtask != null) {
                     manager.historyManager.add(subtask);
                 }
             }
         }
     }
+
 
     private static String taskToString(Task task) {
         if (task != null) {

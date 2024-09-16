@@ -58,13 +58,13 @@ class FileBackedTaskManagerTest {
         File file = new File("history.csv");
         FileBackedTasksManager emptyManager = new FileBackedTasksManager(file);
         emptyManager.save();
-        assertTrue(emptyManager.tasks.isEmpty());
-        assertTrue(emptyManager.epics.isEmpty());
-        assertTrue(emptyManager.subtasks.isEmpty());
+        assertTrue(emptyManager.getTasksList().isEmpty());
+        assertTrue(emptyManager.getEpicsList().isEmpty());
+        assertTrue(emptyManager.getSubtaskList().isEmpty());
         emptyManager.loadFromFile(file);
-        assertTrue(emptyManager.tasks.isEmpty());
-        assertTrue(emptyManager.epics.isEmpty());
-        assertTrue(emptyManager.subtasks.isEmpty());
+        assertTrue(emptyManager.getTasksList().isEmpty());
+        assertTrue(emptyManager.getEpicsList().isEmpty());
+        assertTrue(emptyManager.getSubtaskList().isEmpty());
     }
 
 

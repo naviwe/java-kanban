@@ -6,9 +6,9 @@ import java.util.*;
 
 public class InMemoryTaskManager implements TaskManager {
 
-    public Map<Integer, Task> tasks;
-    public Map<Integer, Epic> epics;
-    public Map<Integer, Subtask> subtasks;
+    protected Map<Integer, Task> tasks;
+    protected Map<Integer, Epic> epics;
+    protected Map<Integer, Subtask> subtasks;
     protected int idNumber = 0;
     protected final HistoryManager historyManager;
 
@@ -35,6 +35,10 @@ public class InMemoryTaskManager implements TaskManager {
 
     protected Subtask addSubtaskInternal(Subtask subtask) {
         subtasks.put(subtask.getId(), subtask);
+        Epic epic = epics.get(subtask.getEpicId());
+        if (epic != null) {
+            epic.addSubtaskId(subtask);
+        }
         return subtask;
     }
 
@@ -57,7 +61,6 @@ public class InMemoryTaskManager implements TaskManager {
             subtask.setId(newId());
             Epic epic = epics.get(subtask.getEpicId());
             addSubtaskInternal(subtask);
-            epic.addSubtaskId(subtask);
             changeEpicStatus(epic);
         }
         return subtask;

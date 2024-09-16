@@ -14,6 +14,10 @@ public class Task {
         this.status = status;
     }
 
+    public Task() {
+
+    }
+
     public int getId() {
         return id;
     }
@@ -48,12 +52,19 @@ public class Task {
 
     @Override
     public String toString() {
-        return "Task{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", status=" + status +
-                '}';
+        return String.format("%d,%s,%s,%s,%s\n", (getId()),
+                getType(), getName(),
+                getStatus(),
+                getDescription());
+    }
+
+    public static Task fromString(String s) {
+        String[] parameters = s.split(",");
+        return new Task(parameters[2], parameters[4], Status.valueOf(parameters[3]));
+    }
+
+    public TaskType getType() {
+        return TaskType.TASK;
     }
 
     @Override

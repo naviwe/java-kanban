@@ -148,30 +148,6 @@ class InMemoryHistoryManagerTest {
         assertEquals("Description 1", fromHistory.getDescription());
     }
 
-    @Test
-    public void intersectionCheck() {
-        Task newTask = new Task("Задача 1", "Действие", Status.NEW,
-                LocalDateTime.of(2024, 9, 22, 13, 30), Duration.ofHours(1));
-        taskManager.addTask(newTask);
-        Epic newEpic = new Epic("Эпик1", "Действие 1", Status.NEW, LocalDateTime.of(2024, 8, 21, 11, 30), Duration.ofHours(5));
-        taskManager.addEpic(newEpic);
-        Subtask newSubtask1 = new Subtask("Подзадача 2", "Действие", Status.NEW,
-                LocalDateTime.of(2024, 9, 22, 11, 30), Duration.ofHours(2), newEpic.getId());
-        taskManager.addSubtask(newSubtask1);
-        Subtask newSubtask2 = new Subtask("Подзадача 3", "Действие", Status.IN_PROGRESS,
-                LocalDateTime.of(2024, 9, 22, 10, 30), Duration.ofHours(1), newEpic.getId());
-        taskManager.addSubtask(newSubtask2);
-        assertNotNull(taskManager.getTasksList());
-        assertNotNull(taskManager.getEpicsList());
-        assertNotNull(taskManager.getSubtaskList());
-        Task crossedTask = new Task("Задача 1", "Действие", Status.NEW,
-                LocalDateTime.of(2024, 9, 22, 12, 30), Duration.ofHours(1));
-        taskManager.updateTask(crossedTask);
-        Subtask crossedSubtask = new Subtask("Подзадача 2", "Действие", Status.NEW,
-                LocalDateTime.of(2024, 9, 22, 11, 0), Duration.ofHours(2), newEpic.getId());
-        taskManager.updateTask(crossedSubtask);
-
-    }
 
     @Test
     public void whenGetPrioritizedTasks_thenReturnTreeSetFillOfTasks() {

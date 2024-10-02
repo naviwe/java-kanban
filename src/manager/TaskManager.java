@@ -5,7 +5,6 @@ import task.Subtask;
 import task.Task;
 
 import java.util.List;
-import java.util.Map;
 
 public interface TaskManager {
     Task addTask(Task task);

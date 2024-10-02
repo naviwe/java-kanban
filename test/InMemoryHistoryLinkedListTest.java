@@ -1,6 +1,4 @@
 
-package test;
-
 import manager.*;
 import task.Epic;
 import task.Status;

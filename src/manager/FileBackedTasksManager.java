@@ -7,6 +7,8 @@ import task.*;
 import java.io.*;
 
 import java.nio.file.Files;
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.*;
 
 
@@ -118,7 +120,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
 
     public void save() {
         try (FileWriter File = new FileWriter(file)) {
-            File.write("id,type,name,status,description,epic\n");
+            File.write("id,type,name,status,description,startTime,duration,epic\n");
             for (Task task : getTasksList()) {
                 File.write(taskToString(task) + "\n");
             }
@@ -212,9 +214,9 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
 
     private static String taskToString(Task task) {
         if (task != null) {
-            return String.format("%d,%s,%s,%s,%s,", task.getId(),
+            return String.format("%d,%s,%s,%s,%s,%s,%s", task.getId(),
                     typeOfTaskToString(task.getType()), task.getName(),
-                    typeOfStatusToString(task.getStatus()), task.getDescription());
+                    typeOfStatusToString(task.getStatus()), task.getDescription(), task.getStartTime(), task.getDuration());
         }
         return "";
     }
@@ -238,6 +240,10 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
                     task.setName(parameters[2]);
                     task.setStatus(Status.valueOf(parameters[3]));
                     task.setDescription(parameters[4]);
+                    if (!parameters[5].equals("null") && !parameters[6].equals("null")) {
+                        task.setStartTime(LocalDateTime.parse(parameters[5]));
+                        task.setDuration(Duration.parse(parameters[6]));
+                    }
                     return task;
                 case EPIC:
                     Epic epic = new Epic();
@@ -245,15 +251,23 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
                     epic.setName(parameters[2]);
                     epic.setStatus(Status.valueOf(parameters[3]));
                     epic.setDescription(parameters[4]);
+                    if (!parameters[5].equals("null") && !parameters[6].equals("null")) {
+                        epic.setStartTime(LocalDateTime.parse(parameters[5]));
+                        epic.setDuration(Duration.parse(parameters[6]));
+                    }
                     return epic;
                 case SUBTASK:
-                    if (parameters.length > 4) {
+                    if (parameters.length > 7) {
                         Subtask subtask = new Subtask();
                         subtask.setId(Integer.parseInt(parameters[0]));
                         subtask.setName(parameters[2]);
                         subtask.setStatus(Status.valueOf(parameters[3]));
                         subtask.setDescription(parameters[4]);
-                        subtask.setEpicId(Integer.parseInt(parameters[5]));
+                        if (!parameters[5].equals("null") && !parameters[6].equals("null")) {
+                            subtask.setStartTime(LocalDateTime.parse(parameters[5]));
+                            subtask.setDuration(Duration.parse(parameters[6]));
+                        }
+                        subtask.setEpicId(Integer.parseInt(parameters[7]));
                         return subtask;
                     } else {
                         break;

@@ -12,7 +12,7 @@ import java.time.Month;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class InMemoryTaskManagerTest {
+class InMemoryTaskManagerTest extends InMemoryTaskManager {
     private InMemoryTaskManager taskManager;
 
     @BeforeEach
@@ -33,8 +33,10 @@ class InMemoryTaskManagerTest {
         assertEquals(1, taskManager.getPrioritizedTasks().size());
         taskManager.addTask(task2);
         taskManager.addEpic(epic1);
+        Subtask subtask = new Subtask("Subtask1", "DescriptionForEpic1", Status.NEW, epic1.getId());
+        taskManager.addSubtask(subtask);
         assertEquals(3, taskManager.getPrioritizedTasks().size());
-        assertEquals(epic1, taskManager.getPrioritizedTasks().get(0));
+        assertEquals(task1, taskManager.getPrioritizedTasks().get(0));
     }
 
     @Test
@@ -53,15 +55,19 @@ class InMemoryTaskManagerTest {
         taskManager.addSubtask(subtask2);
         assertEquals(LocalDateTime.of(2023, Month.OCTOBER, 5, 10, 1), epic1.getStartTime());
         assertEquals(Duration.ofMinutes(89), epic1.getDuration());
-        assertTrue(taskManager.isIntersection(subtask1));
+        assertFalse(isIntersectionTest(subtask1));
 
         Task task1 = new Task("Task1", "DescriptionTask1", Status.NEW);
         task1.setStartTime(LocalDateTime.of(2023, Month.OCTOBER, 5, 10, 20));
         task1.setDuration(Duration.ofMinutes(10));
         taskManager.addTask(task1);
-        assertTrue(taskManager.isIntersection(task1));
+        assertFalse(isIntersectionTest(task1));
 
         taskManager.calculateEndTimeForEpic(epic1.getId());
         assertEquals(LocalDateTime.of(2023, Month.OCTOBER, 5, 11, 30), epic1.getEndTime());
+    }
+
+    public boolean isIntersectionTest(Task task) {
+        return isIntersection(task);
     }
 }

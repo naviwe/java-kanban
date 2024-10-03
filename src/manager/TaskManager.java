@@ -56,6 +56,4 @@ public interface TaskManager {
     void calculateDurationTimeForEpic(Integer epicId);
 
     void calculateEndTimeForEpic(Integer epicId);
-
-    boolean isIntersection(Task task);
 }

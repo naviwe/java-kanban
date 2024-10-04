@@ -31,6 +31,8 @@ public interface TaskManager {
 
     Subtask getSubtaskByIdNumber(int idNumber);
 
+    List<Subtask> getEpicSubtasksByEpicId(Epic epic);
+
     void updateTask(Task task);
 
     void updateEpic(Epic epic);
@@ -46,4 +48,12 @@ public interface TaskManager {
     void changeEpicStatus(Epic epic);
 
     List<Task> getHistory();
+
+    List<Task> getPrioritizedTasks();
+
+    void calculateStartTimeForEpic(Integer epicId);
+
+    void calculateDurationTimeForEpic(Integer epicId);
+
+    void calculateEndTimeForEpic(Integer epicId);
 }

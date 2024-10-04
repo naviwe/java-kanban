@@ -1,6 +1,4 @@
 
-package test;
-
 import manager.*;
 import task.Epic;
 import task.Status;
@@ -122,10 +120,10 @@ public class InMemoryHistoryLinkedListTest {
         HistoryManager historyManager = Managers.getDefaultHistory();
         TaskManager manager = Managers.getDefault();
         Task task = new Task("Задача", "Функция создания задачи", Status.NEW);
-        Epic epic = new Epic("Эпик-задача", "Функция создания");
-        Subtask subtask = new Subtask("Подзадача 1", "Подзадача эпика", Status.NEW, epic.getId());
         manager.addTask(task);
+        Epic epic = new Epic("Эпик-задача", "Функция создания");
         manager.addEpic(epic);
+        Subtask subtask = new Subtask("Подзадача 1", "Подзадача эпика", Status.NEW, epic.getId());
         manager.addSubtask(subtask);
         assertNotNull(task, "Задача не создана");
         assertNotNull(epic, "Задача не создана");

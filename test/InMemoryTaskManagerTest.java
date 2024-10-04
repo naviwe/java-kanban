@@ -66,7 +66,6 @@ class InMemoryTaskManagerTest extends InMemoryTaskManager {
         taskManager.calculateEndTimeForEpic(epic1.getId());
         assertEquals(LocalDateTime.of(2023, Month.OCTOBER, 5, 11, 30), epic1.getEndTime());
     }
-
     public boolean isIntersectionTest(Task task) {
         return isIntersection(task);
     }

@@ -182,15 +182,20 @@ public class InMemoryTaskManager implements TaskManager {
         Task oldTask = tasks.get(idUpdatedTask);
 
         if (oldTask != null) {
+            prioritizedTasks.remove(oldTask);
+            tasks.remove(idUpdatedTask);
+
             if (isIntersection(task)) {
+                tasks.put(idUpdatedTask, oldTask);
+                prioritizedTasks.add(oldTask);
                 return;
             }
 
-            prioritizedTasks.remove(oldTask);
             tasks.put(idUpdatedTask, task);
             prioritizedTasks.add(task);
         }
     }
+
 
     @Override
     public void updateEpic(Epic epic) {
@@ -206,13 +211,19 @@ public class InMemoryTaskManager implements TaskManager {
     public void updateSubtask(Subtask subtask) {
         if (subtasks.containsKey(subtask.getId())) {
             Subtask currentSubtaskId = subtasks.get(subtask.getId());
-            if (currentSubtaskId.getEpicId() == (subtask.getEpicId())) {
+            if (currentSubtaskId.getEpicId() == subtask.getEpicId()) {
+                prioritizedTasks.remove(currentSubtaskId);
+                subtasks.remove(subtask.getId());
+
                 if (isIntersection(subtask)) {
+                    subtasks.put(subtask.getId(), currentSubtaskId);
+                    prioritizedTasks.add(currentSubtaskId);
                     return;
                 }
-                prioritizedTasks.remove(currentSubtaskId);
+
                 subtasks.put(subtask.getId(), subtask);
                 prioritizedTasks.add(subtask);
+
                 Epic epic = epics.get(subtask.getEpicId());
                 if (epic != null) {
                     changeEpicStatus(epic);

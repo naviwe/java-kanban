@@ -7,6 +7,7 @@ import task.Subtask;
 import task.Task;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.List;
 
@@ -16,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class FileBackedTaskManagerTest {
 
     @Test
-    public void testFileSaveAndLoad() {
+    public void testFileSaveAndLoad() throws IOException, InterruptedException {
         File file = new File("history.csv");
         TaskManager taskManager = new FileBackedTasksManager(file);
         Task task1 = new Task("Задача 1", "Действие таска 1", Status.NEW);
@@ -54,7 +55,7 @@ class FileBackedTaskManagerTest {
     }
 
     @Test
-    public void testEmptyFileSaveAndLoad() {
+    public void testEmptyFileSaveAndLoad() throws IOException, InterruptedException {
         File file = new File("history.csv");
         FileBackedTasksManager emptyManager = new FileBackedTasksManager(file);
         emptyManager.save();

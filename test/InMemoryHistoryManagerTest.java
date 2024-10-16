@@ -1,5 +1,3 @@
-package test;
-
 import manager.HistoryManager;
 import manager.InMemoryTaskManager;
 import manager.Managers;
@@ -10,6 +8,7 @@ import task.Task;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.Month;
@@ -34,7 +33,7 @@ class InMemoryHistoryManagerTest {
     }
 
     @Test
-    void checkUpdateIdWhenCreateNewTask() {
+    void checkUpdateIdWhenCreateNewTask() throws IOException, InterruptedException {
         Task task1 = new Task("Task 1", "Description 1", Status.NEW);
         taskManager.addTask(task1);
         Task task2 = new Task("Task 2", "Description 2", Status.NEW);
@@ -79,7 +78,7 @@ class InMemoryHistoryManagerTest {
 
 
     @Test
-    void testSubtaskCannotBeItsOwnEpic() {
+    void testSubtaskCannotBeItsOwnEpic() throws IOException, InterruptedException {
         Epic epic = new Epic("Epic 1", "Epic description");
         epic.setId(1);
         Subtask subtask = new Subtask("Subtask", "Description", Status.NEW, epic.getId());
@@ -96,7 +95,7 @@ class InMemoryHistoryManagerTest {
     }
 
     @Test
-    void testTaskManagerAddsAndFindsTasksById() {
+    void testTaskManagerAddsAndFindsTasksById() throws IOException, InterruptedException {
         Task task = new Task("Task 1", "Description 1", Status.NEW);
         taskManager.addTask(task);
 
@@ -104,7 +103,7 @@ class InMemoryHistoryManagerTest {
     }
 
     @Test
-    void testTaskManagerAddsAndFindsEpicsById() {
+    void testTaskManagerAddsAndFindsEpicsById() throws IOException, InterruptedException {
         Epic epic = new Epic("Epic 1", "Epic description");
         taskManager.addEpic(epic);
 
@@ -112,7 +111,7 @@ class InMemoryHistoryManagerTest {
     }
 
     @Test
-    void testTasksWithGeneratedAndSpecifiedIdDoNotConflict() {
+    void testTasksWithGeneratedAndSpecifiedIdDoNotConflict() throws IOException, InterruptedException {
         Task task1 = new Task("Task 1", "Description 1", Status.NEW);
         task1.setId(1);
         taskManager.addTask(task1);
@@ -124,7 +123,7 @@ class InMemoryHistoryManagerTest {
     }
 
     @Test
-    void testTaskImmutabilityWhenAddedToManager() {
+    void testTaskImmutabilityWhenAddedToManager() throws IOException, InterruptedException {
         Task task = new Task("Task 1", "Description 1", Status.NEW);
         taskManager.addTask(task);
 
@@ -134,7 +133,7 @@ class InMemoryHistoryManagerTest {
     }
 
     @Test
-    void testHistoryManagerStoresPreviousTaskVersions() {
+    void testHistoryManagerStoresPreviousTaskVersions() throws IOException, InterruptedException {
         Task task = new Task("Task 1", "Description 1", Status.NEW);
         taskManager.addTask(task);
         historyManager.add(task);

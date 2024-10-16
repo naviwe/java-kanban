@@ -6,6 +6,7 @@ import task.Task;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.Month;
@@ -21,7 +22,7 @@ class InMemoryTaskManagerTest extends InMemoryTaskManager {
     }
 
     @Test
-    public void whenGetPrioritizedTasks_thenReturnTreeSetFillOfTasks() {
+    public void whenGetPrioritizedTasks_thenReturnTreeSetFillOfTasks() throws IOException, InterruptedException {
         Task task1 = new Task("Task1", "DescriptionTask1", Status.NEW);
         Task task2 = new Task("Task2", "DescriptionTask2", Status.NEW);
         Epic epic1 = new Epic("Epic1", "DescriptionEpic1");
@@ -40,7 +41,7 @@ class InMemoryTaskManagerTest extends InMemoryTaskManager {
     }
 
     @Test
-    public void givenStartTimeAndDuration_whenAddSubtask_thenCalculateTimeFieldsOfEpic() {
+    public void givenStartTimeAndDuration_whenAddSubtask_thenCalculateTimeFieldsOfEpic() throws IOException, InterruptedException {
         Epic epic1 = new Epic("Epic1", "DescriptionEpic1");
         taskManager.addEpic(epic1);
         Subtask subtask1 = new Subtask("Subtask1", "DescriptionSubtask1", Status.NEW,

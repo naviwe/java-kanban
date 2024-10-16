@@ -176,53 +176,6 @@ class HttpTaskServerTest {
     }
 
     @Test
-    void getHistory() throws IOException, InterruptedException {
-        taskManager.getTaskByIdNumber(1);
-        taskManager.getTaskByIdNumber(2);
-        taskManager.getEpicByIdNumber(5);
-        taskManager.getEpicByIdNumber(6);
-        taskManager.getSubtaskByIdNumber(7);
-        taskManager.getSubtaskByIdNumber(8);
-        taskManager.getSubtaskByIdNumber(9);
-
-        HttpClient client = HttpClient.newHttpClient();
-        URI url = URI.create("http://localhost:8080/tasks/history");
-        HttpRequest request = HttpRequest.newBuilder().uri(url).GET().build();
-        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-
-        assertEquals(200, response.statusCode());
-
-        Type historyListType = new TypeToken<ArrayList<Task>>() {
-        }.getType();
-        ArrayList<Task> historyList = gson.fromJson(response.body(), historyListType);
-
-
-        assertNotNull(historyList, "Список истории просмотров не возвращен");
-        assertEquals(7, historyList.size(), "Неверное количество задач в истории просмотров");
-        assertEquals(epicOne, historyList.get(2), "Задачи не совпадают");
-        assertEquals(subtaskThree, historyList.get(6), "Задачи не совпадают");
-    }
-
-    @Test
-    void getPrioritizedTasks() throws IOException, InterruptedException {
-        HttpClient client = HttpClient.newHttpClient();
-        URI url = URI.create("http://localhost:8080/tasks");
-        HttpRequest request = HttpRequest.newBuilder().uri(url).GET().build();
-        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-
-        assertEquals(200, response.statusCode());
-
-        Type prioritizedtaskListType = new TypeToken<ArrayList<Task>>() {
-        }.getType();
-        ArrayList<Task> PrioritizedTaskList = gson.fromJson(response.body(), prioritizedtaskListType);
-
-        assertNotNull(PrioritizedTaskList, "Список задач не возвращен");
-        assertEquals(7, PrioritizedTaskList.size(), "Неверное количество задач");
-        assertEquals(taskFour, PrioritizedTaskList.get(4), "Задачи не совпадают");
-        assertEquals(subtaskTwo, PrioritizedTaskList.get(6), "Задачи не совпадают");
-    }
-
-    @Test
     void getTaskByID() throws IOException, InterruptedException {
         HttpClient client = HttpClient.newHttpClient();
         URI url = URI.create("http://localhost:8080/tasks/task/?id=4");

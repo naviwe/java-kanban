@@ -20,7 +20,7 @@ import java.nio.charset.StandardCharsets;
 
 public class HttpTaskServer {
 
-    private final int PORT = 8080;
+    private final int port = 8080;
     private static final Charset DEFAULT_CHARSET = StandardCharsets.UTF_8;
     private final Gson gson;
     private final TaskManager taskManager;
@@ -29,19 +29,19 @@ public class HttpTaskServer {
     public HttpTaskServer(TaskManager taskManager) throws IOException {
         this.taskManager = taskManager;
         httpServer = HttpServer.create();
-        httpServer.bind(new InetSocketAddress(PORT), 0);
+        httpServer.bind(new InetSocketAddress(port), 0);
         httpServer.createContext("/tasks", new TasksHandler());
         gson = Managers.getGson();
     }
 
     public void start() {
         httpServer.start();
-        System.out.println("Запустили сервер на порту " + PORT);
+        System.out.println("Запустили сервер на порту " + port);
     }
 
     public void stop() {
         httpServer.stop(0);
-        System.out.println("Остановили сервер на порту " + PORT);
+        System.out.println("Остановили сервер на порту " + port);
     }
 
     class TasksHandler implements HttpHandler {

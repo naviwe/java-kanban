@@ -30,6 +30,7 @@ public class KVTaskClient {
                 .build();
         client.send(request, HttpResponse.BodyHandlers.ofString());
     }
+
     public String load(String key) throws IOException, InterruptedException {
         URI loadUrl = URI.create(String.format("%s/load/%s?API_TOKEN=%s", url, key, apiToken));
         HttpRequest request = HttpRequest.newBuilder().uri(loadUrl).GET().build();

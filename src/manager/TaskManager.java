@@ -4,6 +4,7 @@ import task.Epic;
 import task.Subtask;
 import task.Task;
 
+import java.io.IOException;
 import java.util.List;
 
 public interface TaskManager {
@@ -31,7 +32,7 @@ public interface TaskManager {
 
     Subtask getSubtaskByIdNumber(int idNumber);
 
-    List<Subtask> getEpicSubtasksByEpicId(Epic epic);
+    List<Subtask> getEpicSubtasksByEpicId(int epicId);
 
     void updateTask(Task task);
 

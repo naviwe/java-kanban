@@ -23,46 +23,46 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
 
 
     @Override
-    public Task addTask(Task task) {
+    public Task addTask(Task task){
         super.addTask(task);
         save();
         return task;
     }
 
     @Override
-    public void updateTask(Task task) {
+    public void updateTask(Task task){
         super.updateTask(task);
         save();
     }
 
     @Override
-    public void deleteTasks() {
+    public void deleteTasks(){
         super.deleteTasks();
         save();
     }
 
     @Override
-    public Task getTaskByIdNumber(int id) {
+    public Task getTaskByIdNumber(int id){
         Task task = super.getTaskByIdNumber(id);
         save();
         return task;
     }
 
     @Override
-    public void deleteTaskById(int id) {
+    public void deleteTaskById(int id){
         super.deleteTaskById(id);
         save();
     }
 
     @Override
-    public Epic addEpic(Epic epic) {
+    public Epic addEpic(Epic epic){
         super.addEpic(epic);
         save();
         return epic;
     }
 
     @Override
-    public void updateEpic(Epic epic) {
+    public void updateEpic(Epic epic){
         super.updateEpic(epic);
         save();
     }
@@ -74,51 +74,51 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
     }
 
     @Override
-    public Epic getEpicByIdNumber(int id) {
+    public Epic getEpicByIdNumber(int id){
         Epic epic = super.getEpicByIdNumber(id);
         save();
         return epic;
     }
 
     @Override
-    public void deleteEpicById(int id) {
+    public void deleteEpicById(int id){
         super.deleteEpicById(id);
         save();
     }
 
     @Override
-    public Subtask addSubtask(Subtask subtask) {
+    public Subtask addSubtask(Subtask subtask){
         super.addSubtask(subtask);
         save();
         return subtask;
     }
 
     @Override
-    public void updateSubtask(Subtask subtask) {
+    public void updateSubtask(Subtask subtask){
         super.updateSubtask(subtask);
         save();
     }
 
     @Override
-    public void deleteSubtask() {
+    public void deleteSubtask(){
         super.deleteSubtask();
         save();
     }
 
     @Override
-    public Subtask getSubtaskByIdNumber(int id) {
+    public Subtask getSubtaskByIdNumber(int id){
         Subtask subtask = super.getSubtaskByIdNumber(id);
         save();
         return subtask;
     }
 
     @Override
-    public void deleteSubtaskById(int id) {
+    public void deleteSubtaskById(int id){
         super.deleteSubtaskById(id);
         save();
     }
 
-    public void save() {
+    public void save(){
         try (FileWriter File = new FileWriter(file)) {
             File.write("id,type,name,status,description,startTime,duration,epic\n");
             for (Task task : getTasksList()) {

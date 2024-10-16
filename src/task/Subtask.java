@@ -4,6 +4,8 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
+import static manager.adapters.LocalDateTimeAdapter.FORMATTER;
+
 public class Subtask extends Task {
     private int epicId;
 
@@ -42,8 +44,9 @@ public class Subtask extends Task {
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 ", status=" + status +
-                ", startTime=" + startTime +
-                ", duration=" + duration +
+                ", duration=" + (duration != null ? duration.toMinutes() : 0) +
+                ", startTime=" + ((startTime == null) ? "null" : startTime.format(FORMATTER)) +
+                ", endTime=" + ((getEndTime() == null) ? "null" : getEndTime().format(FORMATTER)) +
                 "} " + super.toString();
     }
 

@@ -3,10 +3,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonParser;
 import manager.Managers;
 import manager.TaskManager;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import server.HttpTaskServer;
 import server.KVServer;
 import task.Epic;
@@ -24,6 +21,7 @@ import java.time.LocalDateTime;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+
 class HttpTaskServerTest {
     private static TaskManager taskManager;
     private static KVServer kvServer;
@@ -34,41 +32,25 @@ class HttpTaskServerTest {
     private static final String SUBTASK_BASE_URL = "http://localhost:8080/tasks/subtask/";
 
     @BeforeAll
-    static void startServer() {
-        try {
-            kvServer = new KVServer();
-            kvServer.start();
-            taskServer = new HttpTaskServer(taskManager);
-            taskServer.start();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    static void beforeAll() throws IOException, InterruptedException {
+        kvServer = new KVServer();
+        kvServer.start();
+        taskManager = Managers.getDefault();
+        taskServer = new HttpTaskServer();
+        taskServer.start();
     }
 
-
-    @AfterAll
-    static void stopServer() {
-        kvServer.stop();
+    @AfterEach
+    void tearDown() {
+        taskManager.deleteTasks();
+        taskManager.deleteSubtask();
+        taskManager.deleteEpics();
         taskServer.stop();
     }
 
-    @BeforeEach
-    void resetServer() {
-        HttpClient client = HttpClient.newHttpClient();
-        URI url = URI.create(TASK_BASE_URL);
-        try {
-            HttpRequest request = HttpRequest.newBuilder().uri(url).DELETE().build();
-            client.send(request, HttpResponse.BodyHandlers.ofString());
-            url = URI.create(EPIC_BASE_URL);
-            request = HttpRequest.newBuilder().uri(url).DELETE().build();
-            client.send(request, HttpResponse.BodyHandlers.ofString());
-            url = URI.create(SUBTASK_BASE_URL);
-            request = HttpRequest.newBuilder().uri(url).DELETE().build();
-            client.send(request, HttpResponse.BodyHandlers.ofString());
-
-        } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
-        }
+    @AfterAll
+    static void afterAll() {
+        kvServer.stop();
     }
 
     @Test

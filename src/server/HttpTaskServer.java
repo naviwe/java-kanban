@@ -1,6 +1,8 @@
 package server;
 
 import com.sun.net.httpserver.HttpServer;
+import manager.HistoryManager;
+import manager.Managers;
 import manager.TaskManager;
 import server.handlers.*;
 
@@ -12,7 +14,9 @@ public class HttpTaskServer {
     private final int port = 8080;
     private final HttpServer httpServer;
 
-    public HttpTaskServer(TaskManager taskManager) throws IOException {
+    public HttpTaskServer() throws IOException, InterruptedException {
+        HistoryManager historyManager = Managers.getDefaultHistory();
+        TaskManager taskManager = Managers.getDefault();
         httpServer = HttpServer.create();
         httpServer.bind(new InetSocketAddress(port), 0);
         httpServer.createContext("/tasks/task/", new TaskHandler(taskManager));

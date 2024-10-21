@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import static manager.adapters.LocalDateTimeAdapter.FORMATTER;
+
 public class Epic extends Task {
 
     private List<Integer> subtasksId = new ArrayList<>();
@@ -92,8 +94,9 @@ public class Epic extends Task {
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 ", status=" + status +
-                ", startTime=" + startTime +
-                ", duration=" + duration +
+                ", duration=" + (duration != null ? duration.toMinutes() : 0) +
+                ", startTime=" + ((startTime == null) ? "null" : startTime.format(FORMATTER)) +
+                ", endTime=" + ((getEndTime() == null) ? "null" : getEndTime().format(FORMATTER)) +
                 "} " + super.toString();
     }
 }

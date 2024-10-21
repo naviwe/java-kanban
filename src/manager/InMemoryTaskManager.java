@@ -166,11 +166,14 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public List<Subtask> getEpicSubtasksByEpicId(Epic epic) {
+    public List<Subtask> getEpicSubtasksByEpicId(int epicId) {
+        Epic epic = epics.get(epicId);
         List<Integer> subtaskIds = epic.getSubtasksId();
 
         return subtaskIds.stream()
-                .map(this::getSubtaskByIdNumber)
+                .map(id -> {
+                    return getSubtaskByIdNumber(id);
+                })
                 .filter(Objects::nonNull)
                 .collect(Collectors.toList());
     }
@@ -321,7 +324,7 @@ public class InMemoryTaskManager implements TaskManager {
             return;
         }
 
-        List<Subtask> epicSubtasks = getEpicSubtasksByEpicId(epic);
+        List<Subtask> epicSubtasks = getEpicSubtasksByEpicId(epic.getId());
         if (epicSubtasks.isEmpty()) {
             epic.setStartTime(null);
             return;
@@ -353,7 +356,7 @@ public class InMemoryTaskManager implements TaskManager {
             return;
         }
 
-        List<Subtask> epicSubtasks = getEpicSubtasksByEpicId(epic);
+        List<Subtask> epicSubtasks = getEpicSubtasksByEpicId(epic.getId());
         if (epicSubtasks.isEmpty()) {
             epic.setDuration(null);
             return;
@@ -385,7 +388,7 @@ public class InMemoryTaskManager implements TaskManager {
 
         List<LocalDateTime> endTimes = new ArrayList<>();
 
-        List<Subtask> epicSubtasks = getEpicSubtasksByEpicId(epic);
+        List<Subtask> epicSubtasks = getEpicSubtasksByEpicId(epic.getId());
         if (epicSubtasks.isEmpty()) {
             epic.setEndTime(null);
             return;
